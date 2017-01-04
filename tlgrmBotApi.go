@@ -11,7 +11,7 @@ var token string
 
 const urlTemplate string = "https://api.telegram.org/bot%s/%s"
 
-func setToken(extToken string) {
+func SetToken(extToken string) {
     token = extToken
 }
 
