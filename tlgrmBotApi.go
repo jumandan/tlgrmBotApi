@@ -71,7 +71,7 @@ type messageRecord struct {
 }
 
 type chatRecord struct {
-    Id  int64 `json:"id"`
+    Id  int64   `json:"id"`
     Type string `json:"type"`
 }
 
