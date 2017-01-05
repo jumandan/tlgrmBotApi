@@ -5,7 +5,6 @@ import (
     "net/http"
     "fmt"
     "bytes"
-    //"io/ioutil"
 )
 
 var token string
@@ -45,3 +44,40 @@ func Call(method string, param interface{}, result interface{}) {
         panic(err)
     }
 }
+
+type GetUpdatesRecord struct {
+    Ok     bool           `json:"ok"`
+    Result []updateRecord `json:"result"`
+}
+
+type GetMeRecord struct {
+    Ok     bool       `json:"ok"`
+    Result userRecord `json:"result"`
+}
+
+type userRecord struct {
+    Id         uint64 `json:"id"`
+    Username   string `json:"username"`
+    First_name string `json:"first_name"`
+    Last_name  string `json:last_name`
+}
+
+type messageRecord struct {
+    Message_id int64      `json:"message_id"`
+    From       userRecord `json:"from"`
+    Date       int        `json:"date"`
+    Text       string     `json:"text"`
+    Chat       chatRecord `json:"chat"`
+}
+
+type chatRecord struct {
+    Id  int64 `json:"id"`
+    Type string `json:"type"`
+}
+
+type updateRecord struct {
+    Update_id uint64        `json:"id"`
+    Message   messageRecord `json:"message"`
+}
+
+
