@@ -1,10 +1,11 @@
 package tlgrmBotApi
 
 import (
-//    "encoding/json"; 
-    "net/http"; 
-    "fmt"; 
+    "encoding/json"; 
+    "net/http"
+    "fmt"
     "bytes"
+    //"io/ioutil"
 )
 
 var token string
@@ -15,9 +16,13 @@ func SetToken(extToken string) {
     token = extToken
 }
 
-func Call(method string, param []byte) (interface{}, bool) {
+func Call(method string, param interface{}, result interface{}) {
     url := fmt.Sprintf(urlTemplate, token, method);
-    req, err := http.NewRequest("POST", url, bytes.NewBuffer(param));
+    paramStr, err := json.Marshal(param)
+    if err != nil {
+        panic(err)
+    }
+    req, err := http.NewRequest("POST", url, bytes.NewBuffer(paramStr));
     if err != nil {
         panic(err)
     }
@@ -30,8 +35,13 @@ func Call(method string, param []byte) (interface{}, bool) {
     }
     defer resp.Body.Close()
 
-    fmt.Println("response Status:", resp.Status)
-    fmt.Println("response Headers:", resp.Header)
+    if resp.StatusCode != 200 {
+        panic("Server error. Status is " + resp.Status)
+    }
 
-    return nil, true
+    decoder := json.NewDecoder(resp.Body)
+    decoder.UseNumber()
+    if err := decoder.Decode(result); err != nil {
+        panic(err)
+    }
 }
