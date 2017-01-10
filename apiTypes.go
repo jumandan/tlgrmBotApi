@@ -12,12 +12,29 @@ type Chat struct {
     Type string `json:"type"`
 }
 
+type PhotoSize struct {
+    FileId   string `json:"file_id"`
+    Width    uint   `json:"width"`
+    Height   uint   `json:"height"`
+    FileSize uint   `json:"file_size"`
+}
+
+type Sticker struct {
+    FileId   string    `json:"file_id"`
+    Width    uint      `json:"width"`
+    Height   uint      `json:"height"`
+    Tumb     PhotoSize `json:"tumb"`
+    Emoji    string    `json:"emoji"`
+    FileSize uint      `json:"file_size"`
+}
+
 type Message struct {
-    Id   int64  `json:"message_id"`
-    From User   `json:"from"`
-    Date int    `json:"date"`
-    Text string `json:"text"`
-    Chat Chat   `json:"chat"`
+    Id      int64   `json:"message_id"`
+    From    User    `json:"from"`
+    Date    int     `json:"date"`
+    Text    string  `json:"text"`
+    Chat    Chat    `json:"chat"`
+    Sticker Sticker `json:"sticker"`
 }
 
 type Update struct {
